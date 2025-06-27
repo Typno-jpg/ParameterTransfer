@@ -1,6 +1,6 @@
-
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
@@ -25,6 +25,8 @@ public class CalculateLichteHoeheCommand : IExternalCommand
             .WhereElementIsNotElementType()
             .Cast<Room>();
 
+        List<string> warnings = new List<string>();
+
         using (Transaction t = new Transaction(doc, "Lichte Höhe berechnen"))
         {
             t.Start();
@@ -34,7 +36,7 @@ public class CalculateLichteHoeheCommand : IExternalCommand
                 LocationPoint locationPoint = room.Location as LocationPoint;
                 if (locationPoint == null)
                 {
-                    TaskDialog.Show("Warnung", $"Raum '{room.Name}' hat keine gültige Position und wird übersprungen.");
+                    warnings.Add(room.Name);
                     continue;
                 }
 
@@ -50,7 +52,6 @@ public class CalculateLichteHoeheCommand : IExternalCommand
                     Reference reference = refWithContext.GetReference();
                     Element ceiling = doc.GetElement(reference.ElementId);
                     BoundingBoxXYZ ceilingBoundingBox = ceiling.get_BoundingBox(view3D);
-
                     if (ceilingBoundingBox != null)
                     {
                         lichteHoehe = ceilingBoundingBox.Min.Z - rayStart.Z;
@@ -75,7 +76,13 @@ public class CalculateLichteHoeheCommand : IExternalCommand
             t.Commit();
         }
 
-        TaskDialog.Show("Fertig", "Lichte Höhen wurden berechnet und eingetragen.");
+        string summary = "Lichte Höhen wurden berechnet und eingetragen.";
+        if (warnings.Count > 0)
+        {
+            summary += "\n\nFolgende Räume wurden übersprungen:\n" + string.Join("\n", warnings);
+        }
+
+        TaskDialog.Show("Fertig", summary);
         return Result.Succeeded;
     }
 }
