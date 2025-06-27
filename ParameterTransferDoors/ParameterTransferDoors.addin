@@ -1,0 +1,15 @@
+﻿<RevitAddIns>
+    <AddIn Type="Application">
+        <Name>ParameterTransferDoors</Name>
+        <Assembly>ParameterTransferDoors\ParameterTransferDoors.dll</Assembly>
+        <AddInId>E440C86B-D650-49DA-873C-66DFEFF933C0</AddInId>
+        <FullClassName>ParameterTransferDoors.Application</FullClassName>
+        <VendorId>Development</VendorId>
+        <VendorDescription></VendorDescription>
+        <VendorEmail></VendorEmail>
+    </AddIn>
+    <ManifestSettings>
+        <UseRevitContext>False</UseRevitContext>
+        <ContextName>ParameterTransferDoors</ContextName>
+    </ManifestSettings>
+</RevitAddIns>
