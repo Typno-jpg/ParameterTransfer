@@ -31,7 +31,9 @@ namespace ParameterTransferRooms.Helpers
 
             var paramNames = new[]
             {
-                "KAI_GEO_Lichte_Höhe"
+                "KAI_GEO_Lichte_Höhe",
+                "KAI_RAU_OK_FFB",
+                "KAI_RAU_UK_FD"
             };
 
             var category = doc.Settings.Categories.get_Item(BuiltInCategory.OST_Rooms);
@@ -54,7 +56,13 @@ namespace ParameterTransferRooms.Helpers
                     {
                         t.Start();
                         var binding = app.Create.NewInstanceBinding(catSet);
-                        doc.ParameterBindings.Insert(definition, binding, GroupTypeId.Length);
+
+                        // Korrekte Gruppenzuweisung mit ForgeTypeId
+                        ForgeTypeId group = (name == "KAI_RAU_OK_FFB" || name == "KAI_RAU_UK_FD")
+                            ? GroupTypeId.IdentityData as ForgeTypeId
+                            : GroupTypeId.Geometry as ForgeTypeId;
+
+                        doc.ParameterBindings.Insert(definition, binding, group);
                         t.Commit();
                         addedParams.Add(name);
                     }
