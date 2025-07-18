@@ -45,8 +45,7 @@ namespace ParameterTransferDoors
             var panelDoors = UiApplication.CreateRibbonPanel(tabName, panelNameDoors);
 
             panelDoors.AddPushButton<AddSharedParametersCommand>("Parameterhinzufügen")
-                .SetImage("/ParameterTransferDoors;component/Resources/Icons/ParameterIcon16.png")
-                .SetLargeImage("/ParameterTransferDoors;component/Resources/Icons/ParameterIcon32.png");
+                .SetLargeImage("/ParameterTransferDoors;component/Resources/Icons/DoorAddParameter.png");
 
             panelDoors.AddPushButton<ToggleUpdaterCommand>("Updaterumschalten");
             panelDoors.AddPushButton<UpdateDoorsCommand>("Alle Türenaktualisieren");
@@ -56,7 +55,9 @@ namespace ParameterTransferDoors
             // Räume-Panel
             var panelRooms = UiApplication.CreateRibbonPanel(tabName, panelNameRooms);
 
-            panelRooms.AddPushButton<ParameterTransferRooms.Commands.AddSharedParametersCommandRooms>("Parameterhinzufügen");
+            panelRooms.AddPushButton<ParameterTransferRooms.Commands.AddSharedParametersCommandRooms>("Parameterhinzufügen")
+                .SetLargeImage("/ParameterTransferDoors;component/Resources/Icons/RoomAddParameter.png");
+
             panelRooms.AddPushButton<CalculateLichteHoeheCommand>("Lichte Höhe berechnen");
         }
 
